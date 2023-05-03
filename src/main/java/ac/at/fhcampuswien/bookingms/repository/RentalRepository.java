@@ -20,4 +20,11 @@ public interface RentalRepository extends MongoRepository<Rental, String> {
             "{ startDay: { $lte: ?0 }, endDay: { $gte: ?0 } } " +
             "], carId: { $exists: true } }", fields = "{ carId : 1 }")
     List<String> findAllAvailableCarsBetweenDates(LocalDate startDate, LocalDate endDate);
+
+    List<Rental> findByCustomerId(String id);
+
+
+    @Query("{'_id': ?4}")
+    Rental updateRental(String carId, LocalDate newStartDate, LocalDate newEndDate, float newTotalCost, String rentalId);
+
 }
