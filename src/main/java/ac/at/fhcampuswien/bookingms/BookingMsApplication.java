@@ -3,6 +3,9 @@ package ac.at.fhcampuswien.bookingms;
 import ac.at.fhcampuswien.bookingms.models.Rental;
 import ac.at.fhcampuswien.bookingms.repository.RentalRepository;
 import jakarta.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +19,8 @@ import java.util.stream.Stream;
 @SpringBootApplication
 public class BookingMsApplication {
 
+    Logger logger = LoggerFactory.getLogger(BookingMsApplication.class);
+
     @Autowired
     private RentalRepository rentalRepository;
     @PostConstruct
@@ -28,9 +33,7 @@ public class BookingMsApplication {
                 new Rental("4", "3", "4", LocalDate.of(2023, 06, 02), LocalDate.of(2023, 06, 10), 100)
         ).collect(Collectors.toList());
         rentalRepository.saveAll(rentals);
-        List<String> x = rentalRepository.findAllAvailableCarsBetweenDates(LocalDate.of(2023, 01, 01),LocalDate.of(2023, 05, 31));
-        System.out.print("End");
-
+        logger.warn("Rentals Database Inititalization succesful!");
     }
 
     public static void main(String[] args) {

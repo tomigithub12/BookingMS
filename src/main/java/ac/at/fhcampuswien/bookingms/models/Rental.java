@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@Document(collection = "Rental")
+@Document(collection = "rentals")
 public class Rental {
     @Id
     private String id;

@@ -27,6 +27,20 @@ dependencies {
     // Mapstruct to handle mappers
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //RabbitMQ
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+
+    //ObjectMapper for JacksonConverter
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
+
+    //LocalDate for RabbitMQ
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.5'
+
 }
 
 tasks.named('test') {
