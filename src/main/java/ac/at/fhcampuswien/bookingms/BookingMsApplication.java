@@ -56,7 +56,6 @@ public class BookingMsApplication {
 
         RentalRequestDto rentalRequestDto = new RentalRequestDto("4", LocalDate.of(2023,01,01), LocalDate.of(2023,01,10), 5f, "EUR");
         rentalRestService.createBooking(rentalRequestDto, "test@gmail.com");
-        System.out.print("ss");
     }
 
     public static void main(String[] args) {

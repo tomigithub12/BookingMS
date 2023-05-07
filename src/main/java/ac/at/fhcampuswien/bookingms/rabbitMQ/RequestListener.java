@@ -18,22 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 public class RequestListener {
-
     Logger logger = LoggerFactory.getLogger(RequestListener.class);
     @Autowired
     RentalRepository rentalRepository;
-
-    /*@Async
-    @RabbitListener(queues = RabbitMQConfig.BOOKED_CARS_MESSAGE_QUEUE)
-    public List<String> onBookedCarsRequest(AvailableCarsRequestDto availableCarsRequestDto) {
-        logger.warn("Retrieved request from CarInventoryMS");
-        return rentalRepository.findAllAvailableCarsBetweenDates(availableCarsRequestDto.getFrom(), availableCarsRequestDto.getTo());
-    }*/
-
-    @Async
-    @RabbitListener(queues = RabbitMQConfig.BOOKED_CARS_MESSAGE_QUEUE)
-    public CompletableFuture onBookedCarsRequest(AvailableCarsRequestDto availableCarsRequestDto) {
-        logger.warn("Retrieved request from CarInventoryMS");
-        return CompletableFuture.completedFuture(rentalRepository.findAllAvailableCarsBetweenDates(availableCarsRequestDto.getFrom(), availableCarsRequestDto.getTo()));
-    }
 }

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ac.at.fhcampuswien.bookingms.config.RabbitMQConfig;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -68,6 +69,10 @@ public class RentalEntityService extends Throwable {
         }
         return rentalMapper.RentalToUpdateResponse(rentalUpdate);
     }*/
+
+    public List<String> getBookedCarIds(LocalDate startDate, LocalDate endDate) {
+        return rentalRepository.findAllAvailableCarsBetweenDates(startDate, endDate);
+    }
 
     private String extractIdFromJsonObject(String jsonString){
         JSONObject jsonObject = new JSONObject(jsonString);

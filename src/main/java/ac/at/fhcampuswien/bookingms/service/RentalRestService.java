@@ -2,11 +2,9 @@ package ac.at.fhcampuswien.bookingms.service;
 
 import ac.at.fhcampuswien.bookingms.config.RabbitMQConfig;
 import ac.at.fhcampuswien.bookingms.dtos.*;
-import ac.at.fhcampuswien.bookingms.exceptions.BookingNotFoundException;
 import ac.at.fhcampuswien.bookingms.exceptions.CarNotAvailableException;
 import ac.at.fhcampuswien.bookingms.models.Car;
 import ac.at.fhcampuswien.bookingms.models.Rental;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +61,6 @@ public class RentalRestService {
 
     public RentalResponseDto createBooking(RentalRequestDto rentalBooking, String userEmail) throws CarNotAvailableException {
 
-        String eMail = userEmail;
-
         if (isCarAvailable(rentalBooking)) {
             String currentCurrency = rentalBooking.getCurrentCurrency();
             if (!currentCurrency.equals("USD")) {
@@ -74,7 +70,7 @@ public class RentalRestService {
                 float totalCostFormatted = formatCosts(totalCostInUSD);
                 rentalBooking.setTotalCost(totalCostFormatted);
             }
-            RentalResponseDto responseDto = rentalEntityService.createBooking(rentalBooking, eMail);
+            RentalResponseDto responseDto = rentalEntityService.createBooking(rentalBooking, userEmail);
             CustomExchangeRateDto customExchangeRateResponseDto = new CustomExchangeRateDto(responseDto.getTotalCost(), "USD", currentCurrency);
             double totalCostConvertedResponse = (double) rabbitTemplate.convertSendAndReceive(RabbitMQConfig.CARS_EXCHANGE, RabbitMQConfig.CUSTOM_EXCHANGERATE_MESSAGE_QUEUE, customExchangeRateResponseDto);
             float totalCostConverted = (float) totalCostConvertedResponse;
@@ -115,9 +111,13 @@ public class RentalRestService {
     }
 
     public boolean isCarAvailable(RentalRequestDto rentalBooking) {
-        AvailableCarsRequestDto availableCarsRequestDto = new AvailableCarsRequestDto(rentalBooking.getStartDay(), rentalBooking.getEndDay());
+        List<String> bookedCarsList = rentalEntityService.getBookedCarIds(rentalBooking.getStartDay(), rentalBooking.getEndDay());
+        AvailableCarsRequestDto availableCarsRequestDto = new AvailableCarsRequestDto(
+                rentalBooking.getStartDay(),
+                rentalBooking.getEndDay(),
+                bookedCarsList
+        );
         CarsResponseDto carsResponseDto = rabbitTemplate.convertSendAndReceiveAsType(RabbitMQConfig.CARS_EXCHANGE, RabbitMQConfig.GET_FREE_CARS_MESSAGE_QUEUE, availableCarsRequestDto, new ParameterizedTypeReference<>() {});
-        //carEntityService.getFreeCarsBetweenDates(rentalBooking.getStartDay(), rentalBooking.getEndDay());
         List<Car> bookedCars = carsResponseDto.getCars();
 
         for (Car c : bookedCars) {
