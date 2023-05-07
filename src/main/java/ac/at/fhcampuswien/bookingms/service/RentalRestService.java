@@ -43,9 +43,8 @@ public class RentalRestService {
 
     public List<Rental> getAllBookings(String userEmail, String currentCurrency) {
         ConversionRequestDto conversionRequestDto = new ConversionRequestDto("USD", currentCurrency);
-        String eMail = userEmail;
         List<Rental> allRentals = new ArrayList<>();
-        List<Rental> allRentalsFromDB = rentalEntityService.getAllRentals(eMail);
+        List<Rental> allRentalsFromDB = rentalEntityService.getAllRentals(userEmail);
 
         double exchangeRate = (double) rabbitTemplate.convertSendAndReceive(RabbitMQConfig.CARS_EXCHANGE, RabbitMQConfig.EXCHANGERATE_MESSAGE_QUEUE, conversionRequestDto);
         float convertedExchangeRate = (float) exchangeRate;

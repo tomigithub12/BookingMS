@@ -52,10 +52,17 @@ public class BookingMsApplication {
                 new Rental("4", "6456ef9d74e96531586bd01d", "4", LocalDate.of(2023, 06, 02), LocalDate.of(2023, 06, 10), 100)
         ).collect(Collectors.toList());
         rentalRepository.saveAll(rentals);
-        logger.warn("Rentals Database Inititalization succesful!");
+        logger.warn("Rentals Database Initialization successful!");
 
         RentalRequestDto rentalRequestDto = new RentalRequestDto("4", LocalDate.of(2023,01,01), LocalDate.of(2023,01,10), 5f, "EUR");
+        RentalRequestDto rentalRequestDto1 = new RentalRequestDto("1", LocalDate.of(2023, 01, 01), LocalDate.of(2023, 01, 10), 2f, "TRY");
+        RentalRequestDto rentalRequestDto2 = new RentalRequestDto("2", LocalDate.of(2023, 01, 05), LocalDate.of(2023, 01, 15), 1f, "USD");
         rentalRestService.createBooking(rentalRequestDto, "test@gmail.com");
+        rentalRestService.createBooking(rentalRequestDto1, "test@gmail.com");
+        rentalRestService.createBooking(rentalRequestDto2, "test@gmail.com");
+
+        List<Rental> rentalList = rentalRestService.getAllBookings("test@gmail.com", "AUD");
+        rentalRestService.removeBooking(rentalList.get(1).getId());
     }
 
     public static void main(String[] args) {

@@ -59,6 +59,8 @@ public class RentalEntityService extends Throwable {
 
     public void deleteBooking(String id) {
         rentalRepository.deleteById(id);
+
+        System.out.println("Rental with id " + id + " was deleted");
     }
 
  /*   public RentalUpdateResponseDto updateBooking(RentalUpdateRequestDto rentalUpdateRequestDto) throws BookingNotFoundException {

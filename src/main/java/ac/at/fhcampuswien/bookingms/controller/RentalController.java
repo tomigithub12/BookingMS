@@ -96,25 +96,10 @@ public class RentalController {
         return new ResponseEntity<>(rentalResponseDto, HttpStatus.CREATED);
     }
 
-  /*  @PutMapping("/booking")
-    @Operation(
-            summary = "Update a booking in the database.",
-            tags = {"Bookings"},
-            responses = {
-                    @ApiResponse(description = "Created", responseCode = "201", content = @Content(mediaType = "application/json", schema = @Schema(implementation = RentalResponseDto.class))),
-                    @ApiResponse(description = "Booking with this ID does not exist!", responseCode = "404", content = @Content),
-                    @ApiResponse(description = "Currency Service is not available!", responseCode = "500", content = @Content)
-            })
-    public ResponseEntity<RentalUpdateResponseDto> updateBooking(@Valid @RequestHeader(value = "Auth") String token,
-                                                                 RentalUpdateRequestDto rentalUpdateRequestDto) throws BookingNotFoundException {
-        RentalUpdateResponseDto rentalUpdateResponseDto = rentalRestService.updateBooking(rentalUpdateRequestDto);
-        return new ResponseEntity<>(rentalUpdateResponseDto, HttpStatus.OK);
-    }*/
-
-  /*  @DeleteMapping("/booking/{bookingId}")
+    @DeleteMapping("/booking/{bookingId}")
     @Operation(summary = "Delete booking entry from database.", tags = {"Bookings"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeBooking(@Valid @RequestHeader(value = "Auth") String token, @Valid @PathVariable Long bookingId) {
-        rentalRestService.removeBooking(bookingId);
-    }*/
+    public void removeBooking(@Valid @PathVariable Long bookingId) {
+        rentalRestService.removeBooking(bookingId.toString());
+    }
 }
