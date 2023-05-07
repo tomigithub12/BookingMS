@@ -8,7 +8,7 @@ spring:
         web-application-type: none
     data:
         mongodb:
-            database: Rentals
+            database: Rental
             uri: mongodb+srv://tester:testerpw@customers.4lge2rv.mongodb.net/?retryWrites=true&w=majority
 
 #spring.port = 8082
