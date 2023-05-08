@@ -1,7 +1,7 @@
 spring:
     rabbitmq:
-        host: localhost
-        port: 5672
+        host: ec2-3-120-159-96.eu-central-1.compute.amazonaws.com
+        port: 8081
         username: guest
         password: guest
     data:
