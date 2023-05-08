@@ -119,6 +119,11 @@ public class RentalRestService {
 
 
         CarsResponseDto carsResponseDto = rabbitTemplate.convertSendAndReceiveAsType(RabbitMQConfig.CARS_EXCHANGE, RabbitMQConfig.GET_FREE_CARS_MESSAGE_QUEUE, availableCarsRequestDto, new ParameterizedTypeReference<>() {});
+
+        if(carsResponseDto == null) {
+            return false;
+        }
+
         List<Car> bookedCars = carsResponseDto.getCars();
 
         for (Car c : bookedCars) {
