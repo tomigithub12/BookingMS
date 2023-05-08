@@ -11,10 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@Document(collection = "cars")
 public class Car {
 
-    @Id
+
     private String id;
     private float dailyCost;
     private String brand;

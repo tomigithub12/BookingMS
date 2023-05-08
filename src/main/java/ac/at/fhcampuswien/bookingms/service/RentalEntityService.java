@@ -9,12 +9,16 @@ import ac.at.fhcampuswien.bookingms.dtos.RentalUpdateResponseDto;
 import ac.at.fhcampuswien.bookingms.exceptions.BookingNotFoundException;
 import ac.at.fhcampuswien.bookingms.mapper.RentalMapper;
 import ac.at.fhcampuswien.bookingms.models.Rental;
+import ac.at.fhcampuswien.bookingms.rabbitMQ.RequestListener;
 import ac.at.fhcampuswien.bookingms.repository.RentalRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.log4j.Log4j2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +28,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-@Log4j2
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class RentalEntityService extends Throwable {
+
+    Logger logger = LoggerFactory.getLogger(RentalEntityService.class);
 
     @Autowired
     RentalRepository rentalRepository;
@@ -41,7 +46,7 @@ public class RentalEntityService extends Throwable {
 
 
     public RentalResponseDto createBooking(RentalRequestDto rentalRequestDto, String eMail) {
-        String idResponse = (String) rabbitTemplate.convertSendAndReceive(RabbitMQConfig.CUSTOMER_EXCHANGE, RabbitMQConfig.CUSTOMERID_MESSAGE_QUEUE,eMail);
+        String idResponse = (String) rabbitTemplate.convertSendAndReceive(RabbitMQConfig.CUSTOMER_EXCHANGE, RabbitMQConfig.CUSTOMERID_MESSAGE_QUEUE, eMail);
         String extractedId = extractIdFromJsonObject(idResponse);
         Rental rentalBooking = rentalMapper.BookingRequestToRental(rentalRequestDto, extractedId);
         Rental savedRental = rentalRepository.save(rentalBooking);
@@ -59,8 +64,7 @@ public class RentalEntityService extends Throwable {
 
     public void deleteBooking(String id) {
         rentalRepository.deleteById(id);
-
-        System.out.println("Rental with id " + id + " was deleted");
+        logger.warn("Rental with id " + id + " was deleted");
     }
 
  /*   public RentalUpdateResponseDto updateBooking(RentalUpdateRequestDto rentalUpdateRequestDto) throws BookingNotFoundException {

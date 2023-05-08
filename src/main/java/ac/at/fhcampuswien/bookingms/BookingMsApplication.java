@@ -8,6 +8,8 @@ import ac.at.fhcampuswien.bookingms.models.Car;
 import ac.at.fhcampuswien.bookingms.models.Rental;
 import ac.at.fhcampuswien.bookingms.repository.RentalRepository;
 import ac.at.fhcampuswien.bookingms.service.RentalRestService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import jakarta.annotation.PostConstruct;
 
 import org.modelmapper.ModelMapper;
@@ -27,8 +29,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@EnableAsync
+
 @SpringBootApplication
+@OpenAPIDefinition(info = @Info(title = "BookingMS API", version = "1.0"))
 public class BookingMsApplication {
 
     Logger logger = LoggerFactory.getLogger(BookingMsApplication.class);
@@ -54,7 +57,7 @@ public class BookingMsApplication {
         rentalRepository.saveAll(rentals);
         logger.warn("Rentals Database Initialization successful!");
 
-        RentalRequestDto rentalRequestDto = new RentalRequestDto("4", LocalDate.of(2023,01,01), LocalDate.of(2023,01,10), 5f, "EUR");
+       /* RentalRequestDto rentalRequestDto = new RentalRequestDto("4", LocalDate.of(2023,01,01), LocalDate.of(2023,01,10), 5f, "EUR");
         RentalRequestDto rentalRequestDto1 = new RentalRequestDto("1", LocalDate.of(2023, 01, 01), LocalDate.of(2023, 01, 10), 2f, "TRY");
         RentalRequestDto rentalRequestDto2 = new RentalRequestDto("2", LocalDate.of(2023, 01, 05), LocalDate.of(2023, 01, 15), 1f, "USD");
         rentalRestService.createBooking(rentalRequestDto, "test@gmail.com");
@@ -62,7 +65,7 @@ public class BookingMsApplication {
         rentalRestService.createBooking(rentalRequestDto2, "test@gmail.com");
 
         List<Rental> rentalList = rentalRestService.getAllBookings("test@gmail.com", "AUD");
-        rentalRestService.removeBooking(rentalList.get(1).getId());
+        rentalRestService.removeBooking(rentalList.get(1).getId());*/
     }
 
     public static void main(String[] args) {

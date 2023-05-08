@@ -128,25 +128,4 @@ public class RabbitMQConfig {
         return new Jackson2JsonMessageConverter();
     }
 
-    @Bean
-    public TaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10); // Set the desired number of threads
-        executor.setMaxPoolSize(10);
-        executor.setThreadNamePrefix("RabbitListener-");
-        executor.initialize();
-        return executor;
-    }
-
-    @Bean
-    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
-        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        factory.setConnectionFactory(connectionFactory);
-        factory.setConcurrentConsumers(10); // Set the desired number of concurrent consumers
-        factory.setTaskExecutor(taskExecutor());
-        return factory;
-    }
-
-
-
 }

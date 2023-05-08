@@ -3,6 +3,7 @@ package ac.at.fhcampuswien.bookingms.rabbitMQ;
 import ac.at.fhcampuswien.bookingms.BookingMsApplication;
 import ac.at.fhcampuswien.bookingms.config.RabbitMQConfig;
 import ac.at.fhcampuswien.bookingms.dtos.AvailableCarsRequestDto;
+import ac.at.fhcampuswien.bookingms.dtos.FreeCarsRequestDto;
 import ac.at.fhcampuswien.bookingms.repository.RentalRepository;
 
 import org.slf4j.Logger;
@@ -21,4 +22,10 @@ public class RequestListener {
     Logger logger = LoggerFactory.getLogger(RequestListener.class);
     @Autowired
     RentalRepository rentalRepository;
+
+    @RabbitListener(queues = RabbitMQConfig.BOOKED_CARS_MESSAGE_QUEUE)
+    public List<String> onBookedCarsRequest(FreeCarsRequestDto freeCarsRequestDto) {
+        logger.warn("Retrieved request from CarInventoryMS for all available cars");
+        return rentalRepository.findAllAvailableCarsBetweenDates(freeCarsRequestDto.getFrom(), freeCarsRequestDto.getTo());
+    }
 }

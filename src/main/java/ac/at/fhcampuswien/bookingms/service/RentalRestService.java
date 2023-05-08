@@ -116,6 +116,8 @@ public class RentalRestService {
                 rentalBooking.getEndDay(),
                 bookedCarsList
         );
+
+
         CarsResponseDto carsResponseDto = rabbitTemplate.convertSendAndReceiveAsType(RabbitMQConfig.CARS_EXCHANGE, RabbitMQConfig.GET_FREE_CARS_MESSAGE_QUEUE, availableCarsRequestDto, new ParameterizedTypeReference<>() {});
         List<Car> bookedCars = carsResponseDto.getCars();
 

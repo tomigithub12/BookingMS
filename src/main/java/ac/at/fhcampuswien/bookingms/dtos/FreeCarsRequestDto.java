@@ -12,13 +12,12 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class AvailableCarsRequestDto implements Serializable {
+public class FreeCarsRequestDto implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -29,7 +28,4 @@ public class AvailableCarsRequestDto implements Serializable {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate to;
-
-
-    private List<String> bookedCarIds;
 }
