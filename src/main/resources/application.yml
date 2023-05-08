@@ -1,14 +1,13 @@
 spring:
     rabbitmq:
-        host: localhost
-        port: 5672
+        host: ec2-3-120-159-96.eu-central-1.compute.amazonaws.com
+        port: 8081
         username: guest
         password: guest
-    main:
-        web-application-type: none
     data:
         mongodb:
-            database: Rentals
+            database: Rental
             uri: mongodb+srv://tester:testerpw@customers.4lge2rv.mongodb.net/?retryWrites=true&w=majority
 
-#spring.port = 8082
+#server:
+#    port: 8083
