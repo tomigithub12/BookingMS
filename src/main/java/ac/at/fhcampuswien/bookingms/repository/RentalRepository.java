@@ -23,6 +23,7 @@ public interface RentalRepository extends MongoRepository<Rental, String> {
 
     List<Rental> findByCustomerId(String id);
 
+    void deleteById(String id);
 
     @Query("{'_id': ?4}")
     Rental updateRental(String carId, LocalDate newStartDate, LocalDate newEndDate, float newTotalCost, String rentalId);

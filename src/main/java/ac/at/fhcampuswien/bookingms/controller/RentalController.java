@@ -6,6 +6,7 @@ import ac.at.fhcampuswien.bookingms.exceptions.BookingNotFoundException;
 import ac.at.fhcampuswien.bookingms.exceptions.CarNotAvailableException;
 import ac.at.fhcampuswien.bookingms.models.Car;
 import ac.at.fhcampuswien.bookingms.models.Rental;
+import ac.at.fhcampuswien.bookingms.service.RentalEntityService;
 import ac.at.fhcampuswien.bookingms.service.RentalRestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -100,7 +101,8 @@ public class RentalController {
     @DeleteMapping("/booking/{bookingId}")
     @Operation(summary = "Delete booking entry from database.", tags = {"Bookings"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeBooking(@Valid @PathVariable Long bookingId) {
-        rentalRestService.removeBooking(bookingId.toString());
+    public void removeBooking(@Valid @PathVariable String bookingId) {
+
+        rentalRestService.removeBooking(bookingId);
     }
 }
